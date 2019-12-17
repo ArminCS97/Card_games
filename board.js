@@ -1,98 +1,122 @@
-let Cards = function (ID) {
+let Cards = function (ID, width, height, color, left ,top, sign, selected) {
     this.ID = ID;
+    this.width = width;
+    this.height = height;
+    this.color = color;
+    this.top = top;
+    this.left = left;
+    this.sign_on_card = sign;
+    this.selected = selected;
+    this.draw = drawTheCards
 };
 
-let gameCards = [];
-
-function ArrayFiller() {
-    let id = 0;
-    let card;
-    for (let i = 0; i < 8; i++) {
-        card = new Cards(++id);
-        gameCards.push(card);
-        gameCards.push(card)
-    }
-}
-
-ArrayFiller();
 let counter = 0;
 
+let theLastTwoCards = [];
 
-let button = document.getElementById('Button');
-button.innerText = 'Take a Pair';
+function drawTheCards() {
+    const element = document.createElement('div');
+    element.id = this.ID;
+    document.body.appendChild(element);
+    const style = element.style;
+    style.left = this.left+ 'px';
+    style.top = this.top+ 'px';
+    style.backgroundColor = this.color;
+    style.height = this.height + 'px';
+    style.width = this.width + 'px';
+    style.position = 'absolute';
+    style.borderStyle = 'solid';
+    element.innerText = this.sign_on_card;
+    style.fontSize = 'xxx-large';
+    style.textAlign = 'center';
+    if (this.selected === false) {
+        element.addEventListener('click', selectTheCard);
 
-let card1 = document.getElementById('Card1');
-card1.innerText = 'Card 1';
-
-let card2 = document.getElementById('Card2');
-card2.innerText = 'Card 2';
-
-let result = document.getElementById('Result');
-result.innerText = 'Number Of Steps So Far : ';
-
-let result2 = document.getElementById('Result2');
-result2.innerText = 'Cards Existing: ';
-
-button.addEventListener("click", click, true);
-
-
-function stop() {
-    if (gameCards.length === 0){
-        alert(" Game is DONE. Number Of Steps is " + '\n' + counter.toString());
-        let answer = confirm("Do You Want To Restart The Game? ");
-        if (answer){
-            window.location.reload(true);
+        function selectTheCard() {
+            this.selected = true;
+            style.borderStyle = 'outset';
+            style.borderWidth = 10 + 'px';
+            style.borderColor = 'red';
+            counter++;
+            CheckTheSelectedCards(this.ID)
         }
     }
-}
 
-function removeElement(array , element) {
-    let tempArr = [];
-    for( let i = 0; i < array.length; i++){
-        if ( array[i].ID !== element)
-            tempArr.push(array[i])
-    }
-    array = tempArr;
-    return array
 }
 
 
-function cardsPresentAtArray() {
-    let string = '[ ';
-    for (let i = 0; i < gameCards.length; i++) {
-        string += gameCards[i].ID;
-        if ( i !== gameCards.length-1)
-            string += ', '
+
+let cardsArray = [];
+
+let createTheCards = ()=>{
+    let width = 150;
+    let height = 250;
+    let x1 = 20;
+    let x2 = 20;
+    let y = 0;
+    let card;
+    let id = 1;
+    for (let i = 0; i < 16; i++) {
+        if ( i <= 7) {
+            card = new Cards(id++, width , height, 'yellow', x1, y, 'ss', false);
+            x1 += width;
+            x1 += 40;
+        }
+        else {
+            y = height+ 40;
+            card = new Cards(id++, width, height, 'yellow', x2, y, 'ss', false);
+            x2 += width;
+            x2 += 40;
+        }
+        cardsArray.push(card);
     }
-    string += ' ]';
-    return string
+};
+
+
+
+let runTheCards = () =>{
+    createTheCards();
+    let t = 0;
+    for (let i = 0; i < 16; i++) {
+        setTimeout(function () {
+            cardsArray[i].draw()
+        }, t);
+        t += 300;
+    }
+};
+
+runTheCards();
+
+let disappear =(last2Cards)=>{
+    //removeFromTheDeck(last2Cards);
+    for (let i = 0; i < last2Cards.length; i++) {
+        last2Cards[i].draw();
+    }
+};
+
+let returnBack =(last2Cards)=>{
+    //removeFromTheDeck(last2Cards);
+    for (let i = 0; i < last2Cards.length; i++) {
+        last2Cards[i].width = 0;
+        last2Cards[i].height = 0;
+    }
+};
+
+
+
+function CheckTheSelectedCards(id) {
+    let card = cardsArray[id-1];
+    if ( card.selected )
+        theLastTwoCards.push(card);
+    if (counter === 2) { // 2 cards are selected now
+      //  if (theLastTwoCards[0].sign_on_card === theLastTwoCards[1].sign_on_card) {
+            disappear(theLastTwoCards)
+      //  } else
+           // returnBack(theLastTwoCards);
+
+    }
 }
 
-
-function click() {
-    let i = Math.floor(Math.random() * gameCards.length ); // Card Selected by Player 1 at random
-    let j = Math.floor(Math.random() * gameCards.length ); // Card Selected By Player 2 at random
-    while (true){
-        if (i !== j)
-            break;
-        j = Math.floor(Math.random() * gameCards.length );
-    }
-
-    counter++;
-
-    let num1 = gameCards[i].ID;
-    let num2 = gameCards[j].ID;
-
-    if (num1 === num2){
-        gameCards = removeElement(gameCards , num1);
-    }
-
-    card1.innerText = 'Card 1 ' + '\n' + num1.toString();
-    card2.innerText = 'Card 2 '+ '\n' + num2.toString();
-    result.innerText = 'Number Of Steps So Far : ' + '\n' + counter.toString();
-    result2.innerText = 'Cards Existing: ' + '\n' + cardsPresentAtArray();
-    stop();
-}
 
 
 
