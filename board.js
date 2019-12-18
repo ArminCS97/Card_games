@@ -6,9 +6,11 @@ for (let i = 1; i < 17; i++) {
     document.body.appendChild(element);
 }
 
+const newElement = document.createElement('DIV');
+document.body.appendChild(newElement);
 
 let counter = 0;
-
+let numberOfSteps = 0;
 
 // Cards Object
 let Cards = function (ID, width, height, color, left ,top, sign, selected) {
@@ -39,11 +41,14 @@ function createTheCards() {
     //'Card' +'\n' + this.ID.toString()
     style.fontSize = 'xxx-large';
     style.textAlign = 'center';
+    style.borderWidth = 2 + 'px';
     let id = this.ID;
     this.element.addEventListener('click', selectTheCard);
     function selectTheCard() {
         this.selected = true;
         style.backgroundColor = 'red';
+        style.borderStyle = 'outset';
+        style.borderWidth = 'thick';
         if (!IDsOfLast2CardsSelected.includes(Number(id)))
             IDsOfLast2CardsSelected.push(Number(id));
         counter++;
@@ -123,7 +128,9 @@ function checkTheGameStatus(){
             returnBack(id1 , id2)
         }
         counter = 0;
-        IDsOfLast2CardsSelected = []
+        IDsOfLast2CardsSelected = [];
+        numberOfSteps++;
+        showTheNumberOfSteps();
     }
 }
 
@@ -148,8 +155,29 @@ function returnBack(id1 , id2) {
     id1--; id2--;
     cardsArray[id1].selected = false;
     cardsArray[id1].backgroundColor = 'yellow';
+    cardsArray[id1].borderStyle = 'None';
+    cardsArray[id1].borderWidth = 2 + 'px';
     cardsArray[id2].selected = false;
     cardsArray[id2].backgroundColor = 'yellow';
+    cardsArray[id2].borderStyle = 'None';
+    cardsArray[id2].borderWidth = 2 + 'px';
     cardsArray[id1].draw();
     cardsArray[id2].draw();
 }
+
+
+
+function showTheNumberOfSteps() {
+    let style = newElement.style;
+    style.width = 500 + 'px';
+    style.height = 100 + 'px';
+    style.top = 600 + 'px';
+    style.left = 500 + 'px';
+    style.backgroundColor = 'lightGreen';
+    style.position = 'absolute';
+    style.borderStyle = 'solid';
+    style.fontSize = 'xxx-large';
+    style.textAlign = 'center';
+    newElement.innerText = 'Number of Steps So far:' + '\n' + numberOfSteps.toString();
+}
+
