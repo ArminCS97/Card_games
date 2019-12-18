@@ -11,9 +11,10 @@ document.body.appendChild(newElement);
 
 let counter = 0;
 let numberOfSteps = 0;
+let numberOfDisappeared = 0;
 
 // Cards Object
-let Cards = function (ID, width, height, color, left ,top, sign, selected) {
+let Cards = function (ID, width, height, color, left ,top, sign, disappeared) {
     this.ID = ID;
     this.width = width;
     this.height = height;
@@ -21,7 +22,7 @@ let Cards = function (ID, width, height, color, left ,top, sign, selected) {
     this.top = top;
     this.left = left;
     this.sign_on_card = sign;
-    this.selected = selected;
+    this.disappeared = disappeared;
     this.element = document.getElementById(this.ID.toString());
     this.draw = createTheCards;
 };
@@ -37,24 +38,27 @@ function createTheCards() {
     style.width = this.width + 'px';
     style.position = 'absolute';
     style.borderStyle = 'solid';
-    this.element.innerText = this.sign_on_card;
-    //'Card' +'\n' + this.ID.toString()
     style.fontSize = 'xxx-large';
     style.textAlign = 'center';
     style.borderWidth = 2 + 'px';
     let id = this.ID;
+    let element = this.element;
+    let sign = this.sign_on_card;
+    if (!this.disappeared)
+        element.innerText = 'Card' +'\n' + this.ID.toString();
+   else element.innerText = '';
     this.element.addEventListener('click', selectTheCard);
     function selectTheCard() {
-        this.selected = true;
         style.backgroundColor = 'red';
         style.borderStyle = 'outset';
-        style.borderWidth = 'thick';
+        style.borderWidth = 9 + 'px';
+        element.innerText = sign.toString();
         if (!IDsOfLast2CardsSelected.includes(Number(id)))
             IDsOfLast2CardsSelected.push(Number(id));
         counter++;
         setTimeout(function () {
             checkTheGameStatus();
-        }, 100);
+        }, 300);
     }
 }
 
@@ -131,6 +135,7 @@ function checkTheGameStatus(){
         IDsOfLast2CardsSelected = [];
         numberOfSteps++;
         showTheNumberOfSteps();
+        didAllDisappear();
     }
 }
 
@@ -147,17 +152,18 @@ function disappear(id1 , id2) {
     cardsArray[id2].top = 0;
     cardsArray[id1].left= 0;
     cardsArray[id2].left = 0;
+    cardsArray[id1].disappeared = true;
+    cardsArray[id2].disappeared = true;
+    numberOfDisappeared += 2;
     cardsArray[id1].draw();
     cardsArray[id2].draw();
 }
 
 function returnBack(id1 , id2) {
     id1--; id2--;
-    cardsArray[id1].selected = false;
     cardsArray[id1].backgroundColor = 'yellow';
     cardsArray[id1].borderStyle = 'None';
     cardsArray[id1].borderWidth = 2 + 'px';
-    cardsArray[id2].selected = false;
     cardsArray[id2].backgroundColor = 'yellow';
     cardsArray[id2].borderStyle = 'None';
     cardsArray[id2].borderWidth = 2 + 'px';
@@ -181,3 +187,19 @@ function showTheNumberOfSteps() {
     newElement.innerText = 'Number of Steps So far:' + '\n' + numberOfSteps.toString();
 }
 
+function didAllDisappear() {
+    if (numberOfDisappeared === 16){
+        let style = newElement.style;
+        style.width = 1000 + 'px';
+        style.height = 200 + 'px';
+        style.top = 300 + 'px';
+        style.left = 500 + 'px';
+        style.backgroundColor = 'lightBlue';
+        style.position = 'absolute';
+        style.borderStyle = 'solid';
+        style.fontSize = 'xxx-large';
+        style.textAlign = 'center';
+        style.fontWeight = 'bold';
+        newElement.innerText = 'Number of Steps :' + '\n' + numberOfSteps.toString();
+    }
+}
