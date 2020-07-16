@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="eec38c73-5902-4f0f-9a5d-8e52ea3acea2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/board.js" beforeDir="false" afterPath="$PROJECT_DIR$/board.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -31,7 +30,7 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../React.js_App" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
   </component>
   <component name="RunDashboard">
@@ -89,7 +88,10 @@
       <workItem from="1576579053887" duration="12792000" />
       <workItem from="1576603400526" duration="8023000" />
       <workItem from="1576648809795" duration="9503000" />
-      <workItem from="1576692526546" duration="13352000" />
+      <workItem from="1576692526546" duration="13767000" />
+      <workItem from="1576737827503" duration="242000" />
+      <workItem from="1576739209422" duration="51000" />
+      <workItem from="1594419417065" duration="217000" />
     </task>
     <servers />
   </component>

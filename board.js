@@ -46,7 +46,7 @@ function createTheCards() {
     let sign = this.sign_on_card;
     if (!this.disappeared)
         element.innerText = 'Card' +'\n' + this.ID.toString();
-   else element.innerText = '';
+    else element.innerText = '';
     this.element.addEventListener('click', selectTheCard);
     function selectTheCard() {
         style.backgroundColor = 'red';
@@ -175,8 +175,8 @@ function returnBack(id1 , id2) {
 
 function showTheNumberOfSteps() {
     let style = newElement.style;
-    style.width = 500 + 'px';
-    style.height = 100 + 'px';
+    style.width = 700 + 'px';
+    style.height = 150 + 'px';
     style.top = 600 + 'px';
     style.left = 500 + 'px';
     style.backgroundColor = 'lightGreen';
